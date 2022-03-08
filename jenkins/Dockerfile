@@ -6,6 +6,7 @@ USER root
 RUN apt update && apt install -y lsb-release \
     software-properties-common \
     apt-transport-https \
+    zip wget\
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg  |  gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
@@ -14,10 +15,10 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg  |  gpg --dearmor -o
     && apt update && apt install -y docker-ce-cli \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com \
-     $(lsb_release -cs) main" |  tee /etc/apt/sources.list.d/terraform.list > /dev/null \
-    && apt update && apt install terraform=1.0.10
+RUN wget https://releases.hashicorp.com/terraform/1.0.10/terraform_1.0.10_linux_arm64.zip \
+    && unzip terraform_1.0.10_linux_arm64.zip \
+    && mv terraform /usr/local/bin \
+    && rm -rf terraform_1.0.10_linux_amd64.zip
 
 # bootstarp
 RUN jenkins-plugin-cli --plugins blueocean:1.25.1
