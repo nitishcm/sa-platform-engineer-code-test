@@ -40,8 +40,10 @@
         }
         stage(&apos;IaC Apply&apos;) {
             steps {
-                sh &apos;echo &quot;Apply TF&quot;&apos;
-                sh &apos;cd /src/terraform &amp;&amp; terraform apply -auto-approve plan_out&apos;
+                sh &quot;&quot;&quot;
+                    echo &quot;Apply TF&quot;
+                    cd /src/terraform &amp;&amp; terraform apply -auto-approve plan_out
+                &quot;&quot;&quot;
                 
             }
         }
@@ -55,7 +57,12 @@
         }
         stage(&apos;Docker Deploy&apos;) {
             steps {
-                sh &apos;echo &quot;docker run -d --network sa-code-test -p 8085:8080 sa-code-test:latest&quot;&apos;
+                sh &quot;&quot;&quot;
+                sha_id=&quot;\$(docker images --no-trunc --quiet sa-code-test:latest)&quot;
+                echo &quot;The sha of image is \${sha_id}&quot;
+                docker run -d --network sa-code-test -p 8080:8080 \${sha_id}
+                
+                &quot;&quot;&quot;
             }
         }
     }
