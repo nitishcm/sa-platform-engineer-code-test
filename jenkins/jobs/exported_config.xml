@@ -21,7 +21,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
-      <abortPrevious>false</abortPrevious>
+      <abortPrevious>true</abortPrevious>
     </org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
     <org.jenkinsci.plugins.workflow.job.properties.DisableResumeJobProperty/>
   </properties>
@@ -31,26 +31,25 @@
     stages {
         stage(&apos;IaC Plan&apos;) {
             steps {
-                sh &apos;cd /src/terraform &amp;&amp; sed -i s/localhost/localstack/g providers.tf&apos;
+                sh &apos;cd /src/terraform &amp;&amp; sed -i s/localhost/ssss/g providers.tf&apos;
                 sh &apos;cd /src/terraform &amp;&amp; terraform init&apos;
-                sh &quot;&quot;&quot;
-                terraform validate
-                terraform plan -out plan.txt
-                &quot;&quot;&quot;
+                sh &apos;cd /src/terraform &amp;&amp; terraform validate&apos;
+                sh &apos;cd /src/terraform &amp;&amp; terraform plan -out plan_out&apos;
+                
             }
         }
         stage(&apos;IaC Apply&apos;) {
             steps {
                 sh &apos;echo &quot;Apply TF&quot;&apos;
-                sh &apos;terraform apply -auto-approve plan.txt&apos;
+                sh &apos;cd /src/terraform &amp;&amp; terraform apply -auto-approve plan_out&apos;
+                
             }
         }
         stage(&apos;Docker Build&apos;) {
             steps {
                 sh &quot;&quot;&quot;
                     echo &quot;Build step&quot;
-                    cd /src/app
-                    docker build -t sa-code-test:latest .
+                    cd /src/app &amp;&amp; docker build -t sa-code-test:latest .
                 &quot;&quot;&quot;
             }
         }

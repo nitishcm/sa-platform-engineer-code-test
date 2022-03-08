@@ -11,7 +11,7 @@ USER appcontainer
 COPY --chown=appcontainer:appcontainer bin ./
 COPY --chown=appcontainer:appcontainer testData.json testData.json
 
-COPY  --chown=appcontainer:appcontainer entrypoint.sh docker-entrypoint/entrypoint.sh
+COPY  --chown=appcontainer:appcontainer docker-entrypoint/entrypoint.sh docker-entrypoint/entrypoint.sh
 
 EXPOSE 8080
 
