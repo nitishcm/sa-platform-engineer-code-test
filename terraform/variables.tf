@@ -18,7 +18,7 @@ variable "dynamodb_wcu" {
 variable "hash_key" {
   type = object({
     name : string,
-    type: string
+    type : string
   })
 
 }
