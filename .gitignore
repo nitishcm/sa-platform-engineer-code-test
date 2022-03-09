@@ -4,3 +4,4 @@ jenkins/home
 **.tfstate**
 **plan
 .idea
+terraform/plan_out
