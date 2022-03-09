@@ -31,7 +31,7 @@
     stages {
         stage(&apos;IaC Plan&apos;) {
             steps {
-                sh &apos;cd /src/terraform &amp;&amp; sed -i s/localhost/ssss/g providers.tf&apos;
+                sh &apos;cd /src/terraform &amp;&amp; sed -i s/localhost/localstack/g providers.tf&apos;
                 sh &apos;cd /src/terraform &amp;&amp; terraform init&apos;
                 sh &apos;cd /src/terraform &amp;&amp; terraform validate&apos;
                 sh &apos;cd /src/terraform &amp;&amp; terraform plan -out plan_out&apos;
