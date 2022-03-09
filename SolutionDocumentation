@@ -28,4 +28,21 @@ This document explain the solutions implemented and any changes done to existing
     b. The values for each variables will be picked from terraform.tfvars when terraform apply runs.
     c. On terraform apply it will create dynamo db table with given name, read count unit, write count unit and hash key.
 
-4. 
+4. Q3 solution
+    a. The Jenkins job has been update to run terraform validate and terraform plan in first stage.
+    b. The terraform plan will be stored in file 'plan_out'
+    c. In second stage terraform apply executes without requiring any inputs or approvals using plan generated in 'plan_out' file.
+    b. The jenkins job is configured to stop concurrent job execution.
+
+5. Q4 Solution
+    a. The docker image will be build as per Q1 solution
+    b. Once docker image is built successfully the final stage of pipeline will run the container using 'sha' of new image on port 8080.
+        If port 8080 is already in use the pipeline will fail in last step.
+    c. This solution uses docker cli and shell commands.
+
+
+Note :
+1. For successful pipeline build the localstack environment should be present.
+2. Port 8080 should be free else make the change of port for docker run in final step.
+
+
