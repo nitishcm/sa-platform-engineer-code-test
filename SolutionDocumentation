@@ -1,0 +1,31 @@
+This document explain the solutions implemented and any changes done to existing scripts/files.
+
+1. Changes to Jenkins Docker file
+	Problems : 
+		a. The existing code to install docker-ce-cli was failing due to update to apt repos package signature. 
+		b. Terraform was not getting install as the package no longer exists in given repo.
+	Solution:
+		a. Updated the installation from apt repo for docker-ce-cli with signature stored in file.
+		b. Terraform is install using wget from terraform installation repo.
+
+2. Q1 solution
+    a. Work directory is set to 'app'
+    b. The docker file will create a non root user 'appcontainer'.
+    c. Copying all the contents inside /app to docker container with permission to 'appcontainer' user only.
+    d. A new file 'entrypoint.sh' is added in folder '/app/docker-entrypoint'. It shell script to run the spring boot application.
+        This file will execute when the container starts. The container startup can be ovveridden by passing another command.
+    e. The .dockerignore file has entry to prevent Dockerfile being copied to final image.
+    f. To build the image use 'docker build -t <image-name>:<image-tag> .' in 'app' directory
+    g. To run the image use 'docker run -it -p 8080:8080 <image-name>:<image-tag>'
+    h. Docker image run fails if dynamodb or testData.json is not present
+
+3. Q2 Solution
+    a. Terraform will take variable inputs as below to create dynamo db mentioned in variables.tf with description
+        i. dynamodb_table_name
+        ii. dynamodb_rcu
+        iii. dynamodb_wcu
+        iv. hash_key
+    b. The values for each variables will be picked from terraform.tfvars when terraform apply runs.
+    c. On terraform apply it will create dynamo db table with given name, read count unit, write count unit and hash key.
+
+4. 

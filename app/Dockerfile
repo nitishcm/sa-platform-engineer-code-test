@@ -1,7 +1,5 @@
 FROM openjdk:11
 
-
-
 WORKDIR /app
 
 RUN useradd -u 8787 appcontainer
